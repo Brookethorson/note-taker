@@ -1,4 +1,4 @@
-//Add Dependencies
+//Add 
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
@@ -8,20 +8,22 @@ const util = require("util");
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
-//Server Setup 
+//PORT Designation and app expression
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
-//Sets up the Express app to handle data parsing 
+//Express Middleware
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 //Static Middleware
 app.use(express.static("./develop/public"));
 
+
+
 //API Routes
 //GET Request
-app.get("/api/notes", function(req, res){
+app.get("/api/notes",(req, res) => {
     readFileAsync("./develop/db/db.json", "utf8").then(function(data) {
         notes = [].concat(JSON.parse(data))
         res.json(notes)
@@ -29,7 +31,7 @@ app.get("/api/notes", function(req, res){
 });
 
 //POST Request
-app.post("/api/notes", function(req, res) {
+app.post("/api/notes", (req, res) => {
     const note = req.body;
     readFileAsync("./develop/db/db.json", "utf8").then(function(data){
         const notes = [].concat(JSON.parse(data));
@@ -42,8 +44,10 @@ app.post("/api/notes", function(req, res) {
     })
 });
 
+
+
 //DELETE request - find all notes that shouldn't be deleted and add to a new array 
-app.delete("/api/notes/:id", function(req, res) {
+app.delete("/api/notes/:id", (req, res) => {
     const idDelete = parseInt(req.params.id);
     readFileAsync("./develop/db/db.json", "utf8").then(function(data) {
       const notes = [].concat(JSON.parse(data));
@@ -54,29 +58,28 @@ app.delete("/api/notes/:id", function(req, res) {
         }
       }
       return newNotes
-    }).then(function(notes) {
+    }).then((notes) => {
       writeFileAsync("./develop/db/db.json", JSON.stringify(notes))
-      res.send('Notes Saved!');
+      res.send('Delete Successfull');
     })
   });
 
 //HTML Routes
-app.get("/notes", function(req, res) {
+app.get("/notes",(req, res) => {
     res.sendFile(path.join(__dirname, "./develop/public/notes.html"));
 });
   
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "./develop/public/index.html"));
 });
 
-app.get("*", function(req, res) {
+app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./develop/public/index.html"));
 });
 
 //Listener
 
-app.listen(PORT, function(){
-    console.log(`App listening on PORT ${PORT}`);
-})
+app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
+
 
 

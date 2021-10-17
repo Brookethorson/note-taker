@@ -1,5 +1,5 @@
 <h1 align="center">Note-Taker</h1>
-https://pure-chamber-94605.herokuapp.com/notes
+https://pure-chamber-94605.herokuapp.com/
 
 
 

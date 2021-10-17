@@ -66,11 +66,11 @@ app.delete("/api/notes/:id", (req, res) => {
 
 //HTML Routes
 app.get("/notes",(req, res) => {
-    res.sendFile(path.join(__dirname, "./develop2/public/notes.html"));
+    res.sendFile(path.join(__dirname, ".notes.html"));
 });
   
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "./index.html"));
+    res.sendFile(path.join(__dirname, ".index.html"));
 });
 
 app.get("*", (req, res) => {

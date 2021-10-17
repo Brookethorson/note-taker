@@ -17,14 +17,14 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 //Static Middleware
-app.use(express.static("./develop/public"));
+app.use(express.static("./develop2/public"));
 
 
 
 //API Routes
 //GET Request
 app.get("/api/notes",(req, res) => {
-    readFileAsync("./develop/db/db.json", "utf8").then(function(data) {
+    readFileAsync("./develop2/db/db.json", "utf8").then(function(data) {
         notes = [].concat(JSON.parse(data))
         res.json(notes)
     })
@@ -33,13 +33,13 @@ app.get("/api/notes",(req, res) => {
 //POST Request
 app.post("/api/notes", (req, res) => {
     const note = req.body;
-    readFileAsync("./develop/db/db.json", "utf8").then(function(data){
+    readFileAsync("./develop2/db/db.json", "utf8").then(function(data){
         const notes = [].concat(JSON.parse(data));
         note.id = notes.length + 1
         notes.push(note);
         return notes
     }).then(function(notes){
-        writeFileAsync("./develop/db/db.json", JSON.stringify(notes))
+        writeFileAsync("./develop2/db/db.json", JSON.stringify(notes))
         res.json(note);
     })
 });
@@ -49,7 +49,7 @@ app.post("/api/notes", (req, res) => {
 //DELETE request - find all notes that shouldn't be deleted and add to a new array 
 app.delete("/api/notes/:id", (req, res) => {
     const idDelete = parseInt(req.params.id);
-    readFileAsync("./develop/db/db.json", "utf8").then(function(data) {
+    readFileAsync("./develop2/db/db.json", "utf8").then(function(data) {
       const notes = [].concat(JSON.parse(data));
       const newNotes = []
       for (let i = 0; i<notes.length; i++) {
@@ -59,22 +59,22 @@ app.delete("/api/notes/:id", (req, res) => {
       }
       return newNotes
     }).then((notes) => {
-      writeFileAsync("./develop/db/db.json", JSON.stringify(notes))
+      writeFileAsync("./develop2/db/db.json", JSON.stringify(notes))
       res.send('Delete Successfull');
     })
   });
 
 //HTML Routes
 app.get("/notes",(req, res) => {
-    res.sendFile(path.join(__dirname, "./develop/public/notes.html"));
+    res.sendFile(path.join(__dirname, "./develop2/public/notes.html"));
 });
   
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "./develop/public/index.html"));
+    res.sendFile(path.join(__dirname, "./develop2/public/index.html"));
 });
 
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "./develop/public/index.html"));
+    res.sendFile(path.join(__dirname, "./develop2/public/index.html"));
 });
 
 //Listener

@@ -1,6 +1,5 @@
 <h1 align="center">Note-Taker</h1>
-
-https://brookethorson.github.io/note-taker/
+https://pure-chamber-94605.herokuapp.com/notes
 
 
 
